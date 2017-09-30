@@ -1,48 +1,15 @@
-type cell = {
-  userValue : string,
-  computedValue : option string,
-  id : int
-};
-
-/*
-   Helper function for manipulating the grid of cells.
-
-   This is where the interpreter can be plugged in. At this point all cells
-   get an "INCOMPLETE" status and then we kick off the interpreter algorithm to set
-   the computed Value.
-   */
-let updateRow cell cells value => Js.Array.map (fun cellToCheck =>
-  if (cellToCheck.id == cell.id) {
-    {
-      userValue: value,
-      computedValue: None,
-      id: cell.id
-    }
-  } else {
-    {
-      userValue: cellToCheck.userValue,
-      computedValue: None,
-      id: cellToCheck.id
-    }
-  }
-) cells;
-
-let updateCell cell cells value => Js.Array.map (fun row => updateRow cell row value) cells;
-
-let interpretGridContents cells => {
-  Js.log cells;
-  cells
-};
-
-let optionDefault default value => switch value {
-  | Some a => a
-  | None => default
-};
+open Cell;
 
 /* Conveniences on top of ReasonReact binding */
 let se = ReasonReact.stringToElement;
 let ae = ReasonReact.arrayToElement;
 let getEventValue event => (ReactDOMRe.domElementToObj (ReactEventRe.Form.target event))##value;
+
+/* Couldn't find where this is in the stdlib */
+let optionDefault default value => switch value {
+  | Some a => a
+  | None => default
+};
 
 /* Helper render functions */
 let renderCell = fun onEdit cell =>
@@ -59,12 +26,13 @@ let renderRow = fun onEdit cells => <div className="row">
 
 /* Actions for the reducer */
 type action =
-  | EditCell cell string;
+  | EditCell Cell.cell string;
 
 /* Define the component and the shape of its state */
 type state = {
-  cells : array (array cell)
+  cells : array (array Cell.cell)
 };
+
 let component = ReasonReact.reducerComponent "Grid";
 let make _children => {
   ...component,
@@ -89,7 +57,7 @@ let make _children => {
   },
   reducer: fun action state => switch action {
     | EditCell c s => {
-      ReasonReact.Update { cells: (interpretGridContents (updateCell c state.cells s)) }
+      ReasonReact.Update { cells: (Interpreter.process (updateCell c state.cells s)) }
     }
   },
   render: fun { state, reduce } => {

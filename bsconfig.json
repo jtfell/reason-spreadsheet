@@ -1,0 +1,12 @@
+{
+  "name" : "reason-spreadsheet",
+  "reason" : {"react-jsx" : 2},
+  "bs-dependencies": ["reason-react"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": ["components"]
+    }
+  ],
+  "namespace": true
+}

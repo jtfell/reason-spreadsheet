@@ -29208,60 +29208,41 @@
 	var Pervasives  = __webpack_require__(191);
 	var ReasonReact = __webpack_require__(186);
 
-	function updateCell(_, _$1, value) {
-	  return /* array */[
-	          /* array */[
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */1
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */2
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */3
-	            ]
-	          ],
-	          /* array */[
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */value,
-	              /* id */4
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */5
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */6
-	            ]
-	          ],
-	          /* array */[
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */7
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */8
-	            ],
-	            /* record */[
-	              /* userValue */"",
-	              /* computedValue */"",
-	              /* id */9
-	            ]
-	          ]
-	        ];
+	function updateRow(cell, cells, value) {
+	  return cells.map((function (cellToCheck) {
+	                if (cellToCheck[/* id */2] === cell[/* id */2]) {
+	                  return /* record */[
+	                          /* userValue */value,
+	                          /* computedValue : None */0,
+	                          /* id */cell[/* id */2]
+	                        ];
+	                } else {
+	                  return /* record */[
+	                          /* userValue */cellToCheck[/* userValue */0],
+	                          /* computedValue : None */0,
+	                          /* id */cellToCheck[/* id */2]
+	                        ];
+	                }
+	              }));
+	}
+
+	function updateCell(cell, cells, value) {
+	  return cells.map((function (row) {
+	                return updateRow(cell, row, value);
+	              }));
+	}
+
+	function interpretGridContents(cells) {
+	  console.log(cells);
+	  return cells;
+	}
+
+	function optionDefault($$default, value) {
+	  if (value) {
+	    return value[0];
+	  } else {
+	    return $$default;
+	  }
 	}
 
 	function se(prim) {
@@ -29280,7 +29261,7 @@
 	  return React.createElement("input", {
 	              key: Pervasives.string_of_int(cell[/* id */2]),
 	              className: "cell",
-	              value: cell[/* computedValue */1],
+	              value: optionDefault("", cell[/* computedValue */1]),
 	              onChange: Curry._1(onEdit, cell)
 	            });
 	}
@@ -29315,70 +29296,74 @@
 	                /* array */[
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */1
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */2
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */3
 	                  ]
 	                ],
 	                /* array */[
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */4
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */5
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */6
 	                  ]
 	                ],
 	                /* array */[
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */7
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */8
 	                  ],
 	                  /* record */[
 	                    /* userValue */"",
-	                    /* computedValue */"",
+	                    /* computedValue : None */0,
 	                    /* id */9
 	                  ]
 	                ]
 	              ]];
 	    });
 	  newrecord[/* reducer */12] = (function (action, state) {
-	      return /* Update */Block.__(0, [/* record */[/* cells */updateCell(action[0], state[/* cells */0], action[1])]]);
+	      var cells = updateCell(action[0], state[/* cells */0], action[1]);
+	      return /* Update */Block.__(0, [/* record */[/* cells */(console.log(cells), cells)]]);
 	    });
 	  return newrecord;
 	}
 
-	exports.updateCell    = updateCell;
-	exports.se            = se;
-	exports.ae            = ae;
-	exports.getEventValue = getEventValue;
-	exports.renderCell    = renderCell;
-	exports.renderRow     = renderRow;
-	exports.component     = component;
-	exports.make          = make;
+	exports.updateRow             = updateRow;
+	exports.updateCell            = updateCell;
+	exports.interpretGridContents = interpretGridContents;
+	exports.optionDefault         = optionDefault;
+	exports.se                    = se;
+	exports.ae                    = ae;
+	exports.getEventValue         = getEventValue;
+	exports.renderCell            = renderCell;
+	exports.renderRow             = renderRow;
+	exports.component             = component;
+	exports.make                  = make;
 	/* component Not a pure module */
 
 

@@ -7,6 +7,11 @@ type cell = {
   id : int
 };
 
+/*
+  A 2D array of cells representing the spreadsheet grid
+*/
+type grid = array (array cell);
+
 let updateRow cell cells value => Js.Array.map (fun cellToCheck =>
   if (cellToCheck.id == cell.id) {
     {

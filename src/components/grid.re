@@ -62,7 +62,7 @@ let make _children => {
   },
   render: fun { state, reduce } => {
     <div>
-      <div> (se "Spreadsheet Grid!") </div>
+      <div> (se "Reason Spreadsheet") </div>
       (ae (Js.Array.map
           (renderRow (fun cell => reduce (fun ev => EditCell cell (getEventValue ev))))
           state.cells)
